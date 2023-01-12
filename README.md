@@ -1,4 +1,4 @@
-<h1 align='center'>Django Framework Ecommerce Project</h1>
+<h1 align='center'>Agriculture product ecommerce</h1>
 
 
 ## Prerequisites
