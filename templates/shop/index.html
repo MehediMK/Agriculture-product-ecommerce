@@ -1,0 +1,212 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load shop_tag %}
+
+{% block title %}Home Page{% endblock %} 
+
+{% block content %}
+    <!-- Navbar Start -->
+    {% include "shop/homenavbar.html" %}
+    <!-- Navbar End -->
+
+    <!-- Featured Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5 pb-3">
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
+                    <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Featured End -->
+    
+    {% if categories %}
+    <!-- owl-carousel categories Start -->
+    <div class="container-fluid py-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">Categories</span></h2>
+        </div>
+        <div class="row px-xl-5">
+            <div class="w-100 d-flex justify-content-end py-2">
+                <a href="{% url 'shop' %}">See More >>> </a>
+            </div>
+            <div class="col">
+                <div class="owl-carousel related-carousel">
+                    {% for category in categories %}                         
+                        <div class="card product-item border-0" >
+                            <div class="cat-img card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                <a href="{% url 'shop' %}?category={{category.id}}" class="cat-img position-relative overflow-hidden mb-3">
+                                    <img class="img-fluid" style="height:200px;width:100%;"  src=" {{category.category_image.url}}" alt="{{category.category_name}}">
+                                </a>
+                                <h5 class="font-weight-semi-bold m-0">{{category.category_name}}</h5>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--owl-carousel Categories End -->
+    {% endif %}
+
+
+    {% if products %}
+    <!-- Products Start -->
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
+        </div>
+        <div class="row px-xl-5 pb-3">
+            <div class="w-100 d-flex justify-content-end py-2">
+                <a href="{% url 'shop' %}">See More Products >>></a>
+            </div>
+            {% for product in products reversed %}
+                {% if forloop.counter <= 4 %}   
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4" style="height:400px;">
+                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <p class="text-light bg-primary py-2 px-2 rounded-2 d-flex justify-content-between w-100" style="position:absolute;"> <span>{{product.quantity}}/{% if product.unit %}{{product.unit}}'s{% else %}Items{% endif %}</span> <span>{{product.get_post_type_display}}</span></p>
+                            <img class="img-fluid" style="height:350px;width:100%;" src=" {{product.product_image.url}}" alt="{{product.product_title}}">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3 text-wrap">{{product.product_title}}</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>{% currency_tk %} {% discount_amount product.product_price product.discount_price %}</h6><h6 class="text-muted ml-2"><del>{% currency_tk %} {{product.product_price}}</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                            <form action="{% url 'add_cart'%}#product_{{ product.id }}" method="post">
+                                {% csrf_token %}
+                                <input type="text" hidden name="cartpage" value="cartpage">
+                                <input type="text" hidden name="product_id" value="{{product.id}}">
+                                <button type="submit" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                            </form> 
+                        </div>
+                    </div>                
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Products End -->
+    {% endif %}
+    
+
+
+    <!-- Subscribe Start -->
+    <div class="container-fluid bg-secondary my-5">
+        <div class="row justify-content-md-center py-5 px-xl-5">
+            <div class="col-md-6 col-12 py-5">
+                <div class="text-center mb-2 pb-2">
+                    <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Stay Updated</span></h2>
+                    <p>Amet lorem at rebum amet dolores. Elitr lorem dolor sed amet diam labore at justo ipsum eirmod duo labore labore.</p>
+                </div>
+                <form action="{% url 'email_subscribe' %}" method="post"> {% csrf_token %}
+                    <div class="input-group">
+                        <input type="email" name="email" class="form-control border-white p-4" placeholder="Email Goes Here">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary px-4">Subscribe</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Subscribe End -->
+    
+    <!-- owl-carousel Products Start -->
+    <div class="container-fluid py-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel related-carousel">
+                    {% if products %}
+                        {% for product in products %}                            
+                            <div class="card product-item border-0" style="height:400px;" >
+                                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <p class="text-light bg-primary py-2 px-2 rounded-2 d-flex justify-content-between w-100" style="position:absolute;"> <span>{{product.quantity}}/{% if product.unit %}{{product.unit}}'s{% else %}Items{% endif %}</span> <span>{{product.get_post_type_display}}</span></p>
+                                    <img class="img-fluid" style="height:350px;width:100%;" src="{{product.product_image.url}}" alt="{{product.product_title}}">
+                                </div>
+                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                    <h6 class="text-truncate mb-3">{{product.product_title}}</h6>
+                                    <div class="d-flex justify-content-center">
+                                        <h6>{% currency_tk %} {% discount_amount product.product_price product.discount_price %}</h6><h6 class="text-muted ml-2"><del>{{product.product_price}}</del></h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between bg-light border">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                    <form action="{% url 'add_cart'%}#product_{{ product.id }}" method="post">
+                                        {% csrf_token %}
+                                        <input type="text" hidden name="product_id" value="{{product.id}}">
+                                        <button type="submit" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                                    </form> 
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--owl-carousel Products End -->
+
+    <!-- Vendor Start -->
+    <div class="container-fluid py-5">
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel vendor-carousel">
+                    <div class="vendor-item border p-4">
+                        <img src=" {% static 'shop/img/vendor-1.jpg' %}" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src=" {% static 'shop/img/vendor-2.jpg' %}" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src=" {% static 'shop/img/vendor-3.jpg' %}" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src=" {% static 'shop/img/vendor-4.jpg' %}" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src=" {% static 'shop/img/vendor-5.jpg' %}" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src=" {% static 'shop/img/vendor-6.jpg' %}" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src=" {% static 'shop/img/vendor-7.jpg' %}" alt="">
+                    </div>
+                    <div class="vendor-item border p-4">
+                        <img src=" {% static 'shop/img/vendor-8.jpg' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Vendor End -->
+
+{% endblock %}

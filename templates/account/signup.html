@@ -1,0 +1,28 @@
+{% extends "common/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Signup Page{% endblock %} 
+
+{% block content %}
+<div class="container">
+    <div class="row m-3">
+    
+        <div class="border offset-3 col-md-6 border-success rounded">
+            <h2 class="text-success text-center border p-5 m-1">Sign Up</h2>
+            <form method="post" action="{% url 'signup' %}" class="m-3" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                {{ form1|crispy }}
+
+                <div class="row p-2">
+                    <div class="col">
+                        <input type="submit" class="btn btn-success w-100 mx-auto" value="SignUp">
+                    </div>
+                </div>
+                
+                Already have an Account? <a class="w-100 mx-auto" href="{% url 'login' %}">Login</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

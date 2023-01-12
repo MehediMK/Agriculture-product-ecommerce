@@ -1,0 +1,28 @@
+{% extends "common/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load shop_tag %}
+
+{% block title %}Profile Page{% endblock %} 
+
+{% block content %}
+    <!-- Navbar Start -->
+    {% navbar_category %}
+    <!-- Navbar End -->
+
+<div class="container">
+    <div class="row m-3">
+        <div class="border offset-3 col-md-6 border-success">
+            <h1 class="text-center">Edit info Page</h1>
+            <img src="{{ userinfo.profile_pic.url }}" style="padding:10px;width:100px;height:100px;"alt="UserProfile Picture">
+            <form method="post" action="{% url 'editUserInfo' %}" class="m-3" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                {{ form1|crispy }}
+                <input type="submit" class="btn btn-success m-3 w-100 mx-auto" value="Edit Now">
+            
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

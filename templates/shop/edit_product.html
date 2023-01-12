@@ -1,0 +1,27 @@
+{% extends "common/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load shop_tag %}
+
+{% block title %}Edit Product Page{% endblock %} 
+
+{% block content %}
+    <!-- Navbar Start -->
+    {% navbar_category %}
+    <!-- Navbar End -->
+
+    <div class="container">
+        <div class="row m-3">
+            <div class="border offset-3 col-md-6 border-warning rounded-4">
+                <h1 class="text-center">Edit Product</h1>
+                <form method="post" action="{% url 'edit_product' form.instance.id %}" class="m-3" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <img width="200px" height="200px" src="{{form.instance.product_image.url}}" alt="{{form.instance.title}}"/>
+                    {{ form|crispy }}
+                    <input type="submit" class="btn btn-primary m-3 w-100 mx-auto" value="Edit Product">                
+                </form>
+            </div>
+        </div>
+      </div>
+<!-- End #main -->
+{% endblock %}

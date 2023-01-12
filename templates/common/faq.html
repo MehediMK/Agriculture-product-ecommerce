@@ -1,0 +1,73 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load shop_tag %}
+
+{% block title %}Cart Page{% endblock %} 
+
+{% block content %}
+    <!-- Navbar Start -->
+    {% navbar_category %}
+    <!-- Navbar End -->
+
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">FAQ</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="{% url 'index' %}">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">FAQ</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-12 table-responsive mb-5">
+                <div class="accordion" id="accordionExample">                    
+                    {% if faqs %}
+                    {% for faq in faqs %}   
+                        {% if forloop.first %}               
+                        <div class="card">
+                        <div class="card-header" id="faq-title-{{faq.id}}">
+                            <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#faq-desc-{{faq.id}}" aria-expanded="true" aria-controls="faq-desc-{{faq.id}}">
+                                {{faq.title}}
+                            </button>
+                            </h2>
+                        </div>
+                    
+                        <div id="faq-desc-{{faq.id}}" class="collapse show" aria-labelledby="faq-title-{{faq.id}}" data-parent="#accordionExample">
+                            <div class="card-body">
+                                {{faq.description}}
+                            </div>
+                        </div>
+                        </div>
+                        {% else %}
+                        <div class="card">
+                            <div class="card-header" id="faq-title-{{faq.id}}">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#faq-desc-{{faq.id}}" aria-expanded="false" aria-controls="faq-desc-{{faq.id}}">
+                                    {{faq.title}}
+                                </button>
+                            </h2>
+                            </div>
+                            <div id="faq-desc-{{faq.id}}" class="collapse" aria-labelledby="faq-title-{{faq.id}}" data-parent="#accordionExample">
+                            <div class="card-body">
+                                {{faq.description}}
+                            </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load shop_tag %}
+
+{% block title %}Product Detail Page{% endblock %} 
+
+{% block content %}
+    <!-- Navbar Start -->
+    {% navbar_category %}
+    <!-- Navbar End -->
+
+    
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Terms and Conditions</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="{% url 'index' %}">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Terms-Conditions</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid pt-2">        
+        <div class="row px-xl-5">
+            <div class="col-lg-12 mb-5 px-5">
+                <ol>
+                    {% if terms %}
+                        {% for term in terms %}                    
+                            <li class="text-primary py-2">{{term.description}}</li>
+                        {% endfor %}                    
+                    {% else %}
+                        <li>Nothing added.</li>
+                    {% endif %}
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+{% endblock %}
