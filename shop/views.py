@@ -196,16 +196,16 @@ def checkout(request):
                         order = OrderPlace(user=user, product=product, quantity=cart.get(str(product.id)), fname=fname, lname=lname, email=email,
                                            mobile=mobile, address=address, city=city, zip=zip, total_amout=discount_price, TrxID=bkashTrxID)
                         order.save()
-                    try:
-                        from_email = settings.DEFAULT_FROM_EMAIL
-                        subject = 'Order Placed Confirmation'
-                        message = f'Your TrxID is {bkashTrxID} and phone No. {mobile}.Total Paid :{total_amount}.We will connect you soon.\n Thanks for Shoping'
-                        send_mail(subject, message, from_email, [
-                                  email],  fail_silently=False,)
-                        messages.success(
-                            request, f"Hello {fname},\nThanks for stay with us!")
-                    except BadHeaderError as error:
-                        messages.error(request, f"{error}")
+                    # try:
+                    #     from_email = settings.DEFAULT_FROM_EMAIL
+                    #     subject = 'Order Placed Confirmation'
+                    #     message = f'Your TrxID is {bkashTrxID} and phone No. {mobile}.Total Paid :{total_amount}.We will connect you soon.\n Thanks for Shoping'
+                    #     send_mail(subject, message, from_email, [
+                    #               email],  fail_silently=False,)
+                    #     messages.success(
+                    #         request, f"Hello {fname},\nThanks for stay with us!")
+                    # except BadHeaderError as error:
+                    #     messages.error(request, f"{error}")
                     request.session['cart'] = {}
 
                 return redirect('userprofile')
@@ -218,16 +218,16 @@ def checkout(request):
                         order = OrderPlace(user=user, product=product, quantity=cart.get(str(product.id)), fname=fname, lname=lname, email=email,
                                            mobile=mobile, address=address, city=city, zip=zip, total_amout=discount_price, TrxID='Cash_On_delivery')
                         order.save()
-                    try:
-                        from_email = settings.DEFAULT_FROM_EMAIL
-                        subject = 'Order Placed Confirmation'
-                        message = f'Your Shiping method is Cash on delivery and phone No. {mobile}.Total Paid :{total_amount}.We will connect you soon.\n Thanks for Shoping'
-                        send_mail(subject, message, from_email, [
-                                  email],  fail_silently=False,)
-                        messages.success(
-                            request, f"Hello {fname},\nThanks for stay with us!")
-                    except BadHeaderError as error:
-                        messages.error(request, f"{error}")
+                    # try:
+                    #     from_email = settings.DEFAULT_FROM_EMAIL
+                    #     subject = 'Order Placed Confirmation'
+                    #     message = f'Your Shiping method is Cash on delivery and phone No. {mobile}.Total Paid :{total_amount}.We will connect you soon.\n Thanks for Shoping'
+                    #     send_mail(subject, message, from_email, [
+                    #               email],  fail_silently=False,)
+                    #     messages.success(
+                    #         request, f"Hello {fname},\nThanks for stay with us!")
+                    # except BadHeaderError as error:
+                    #     messages.error(request, f"{error}")
                     request.session['cart'] = {}
 
                 return redirect('userprofile')
